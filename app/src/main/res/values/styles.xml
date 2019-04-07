@@ -1,17 +1,22 @@
 <resources>
 
-    <!-- Base application theme. -->
+    <!-- Base app theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-    </style>
+        <item name="floatingActionButtonStyle">@style/Widget.Design.FloatingActionButton</item>
+        <item name="coordinatorLayoutStyle">@style/Widget.Design.AppBarLayout</item>
 
+    </style>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
     <!-- Activity with no Title -->
     <style name="ThemeOverlay.MyNoTitleActivity" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
+
 
     <!-- Dark Buttons -->
     <style name="ThemeOverlay.MyDarkButton" parent="ThemeOverlay.AppCompat.Dark">
@@ -36,6 +41,7 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+
     <style name="ThemeOverlay.FirebaseIcon" parent="AppTheme">
         <item name="android:layout_marginTop">@dimen/icon_top_margin</item>
         <item name="android:layout_marginBottom">@dimen/icon_bottom_margin</item>
@@ -55,10 +61,6 @@
 
         <item name="android:visibility">gone</item>
     </style>
-
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 
 </resources>

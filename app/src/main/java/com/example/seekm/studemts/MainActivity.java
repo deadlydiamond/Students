@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
                     if (isFinishing())
                         return;
 
-                    Intent intent = new Intent(MainActivity.this, OnBoarding_1.class);
+                    Intent intent = new Intent(MainActivity.this, DocsAttachmentActivity.class);
                     startActivity(intent);
                     printKeyHash();
                     finish();
@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
             videoView.start();
         } catch (Error err) {
             Log.d(TAG, "onCreateInMainActivity: " + err.getMessage());
-            Intent intent = new Intent(MainActivity.this, OnBoarding_1.class);
+            Intent intent = new Intent(MainActivity.this, DocsAttachmentActivity.class);
             startActivity(intent);
             printKeyHash();
         }

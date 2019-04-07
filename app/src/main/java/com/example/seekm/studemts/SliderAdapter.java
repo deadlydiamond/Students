@@ -42,7 +42,7 @@ public class SliderAdapter extends PagerAdapter {
     public String[] slide_desc = {
             "Find your nearest students on the go, start by filling out the required information and wait for the student's request",
             "Get yourself registered for completely free, we do not charge commission or hidden charges.",
-            "Our application is simple and easy to use, as soon as you start you get used to it."
+            "Our app is simple and easy to use, as soon as you start you get used to it."
     };
 
 

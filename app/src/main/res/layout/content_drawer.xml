@@ -4,10 +4,105 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/screen_9"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".Drawer"
     tools:showIn="@layout/app_bar_drawer">
 
+    <ImageView
+        android:id="@+id/advert"
+        android:layout_width="143dp"
+        android:layout_height="85dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/add"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/messages"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.060000002" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ad Placement"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textView"
+        app:layout_constraintEnd_toEndOf="@+id/advert"
+        app:layout_constraintStart_toStartOf="@+id/advert" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat"
+        android:text="History"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="@+id/history"
+        app:layout_constraintStart_toStartOf="@+id/history"
+        app:layout_constraintTop_toBottomOf="@+id/history" />
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat"
+        android:text="Messages"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="@+id/messages"
+        app:layout_constraintStart_toStartOf="@+id/messages"
+        app:layout_constraintTop_toBottomOf="@+id/messages" />
+
+    <ImageView
+        android:id="@+id/messages"
+        android:layout_width="142dp"
+        android:layout_height="85dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/envelope"
+        app:layout_constraintBottom_toBottomOf="@+id/advert"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.23"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/advert"
+        app:layout_constraintVertical_bias="0.06999999" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat"
+        android:text="Nearby Tutors"
+        android:textColor="@color/colorAccent"
+        app:layout_constraintEnd_toEndOf="@+id/nearbyTutors"
+        app:layout_constraintStart_toStartOf="@+id/nearbyTutors"
+        app:layout_constraintTop_toBottomOf="@+id/nearbyTutors" />
+
+    <ImageView
+        android:id="@+id/nearbyTutors"
+        android:layout_width="100dp"
+        android:layout_height="85dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:src="@drawable/ic_group_24px"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/messages"
+        app:layout_constraintStart_toStartOf="@+id/messages"
+        app:layout_constraintTop_toBottomOf="@+id/messages"
+        app:layout_constraintVertical_bias="0.18" />
+
+    <ImageView
+        android:id="@+id/history"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/history"
+        app:layout_constraintBottom_toBottomOf="@+id/nearbyTutors"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/nearbyTutors"
+        app:layout_constraintTop_toTopOf="@+id/nearbyTutors" />
 
 </android.support.constraint.ConstraintLayout>

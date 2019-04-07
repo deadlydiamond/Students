@@ -5,6 +5,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -14,6 +15,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.system.ErrnoException;
 import android.util.Log;
@@ -46,6 +48,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -53,23 +57,28 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.*;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+
+import static android.widget.Toast.LENGTH_SHORT;
 
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,
 
 
-        GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnInfoWindowClickListener, GoogleMap.OnMarkerDragListener {
 
+        GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnInfoWindowClickListener{ //GoogleMap.OnMarkerDragListener {
     SharedPreferences Profile_preferences ;
     FirebaseAuth mAuth;
     DatabaseReference databaseReference;
-
+    Circle circle;
+    String FirstName, LastName;
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
@@ -82,7 +91,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         if (mLocationPermissionsGranted) {
-            getDeviceLocation();
+            //getDeviceLocation();
 
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                     != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
@@ -92,6 +101,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //            mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
             mMap.getUiSettings().setMapToolbarEnabled(false);
+            mMap.setOnInfoWindowClickListener(this);
         }
     }
 
@@ -143,27 +153,27 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .addApi(Places.PLACE_DETECTION_API)
                 .enableAutoManage(this, this)
                 .build();
-        mSearchText.setOnItemClickListener(mAutocompleteClickListener);
+        //mSearchText.setOnItemClickListener(mAutocompleteClickListener);
 
-        mPlaceAutocompleteAdapter = new PlaceAutocompleteAdapter(this, mGoogleApiClient,
-                LAT_LNG_BOUNDS, null);
+        //mPlaceAutocompleteAdapter = new PlaceAutocompleteAdapter(this, mGoogleApiClient,
+        //      LAT_LNG_BOUNDS, null);
 
-        mSearchText.setAdapter(mPlaceAutocompleteAdapter);
-        mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH
-                        || actionId == EditorInfo.IME_ACTION_DONE
-                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
-                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
-
-                    //execute our method for searching
-                    geoLocate();
-                }
-
-                return false;
-            }
-        });
+        //mSearchText.setAdapter(mPlaceAutocompleteAdapter);
+//        mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+//            @Override
+//            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+//                if (actionId == EditorInfo.IME_ACTION_SEARCH
+//                        || actionId == EditorInfo.IME_ACTION_DONE
+//                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+//                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
+//
+//                    //execute our method for searching
+//                    geoLocate();
+//                }
+//
+//                return false;
+//            }
+//        });
 
         mGps.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -205,69 +215,63 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (longitude!=0.0d && latitude!=0.0d) {
-                    Log.d(TAG, "global lat and long: " + latitude);
-
-
-
-
-
-
-                   // Intent intent = new Intent(MapsActivity.this, Result.class);
-                    String longitudeStr, latitudeStr;
-                    latitudeStr = String.valueOf(latitude);
-                    longitudeStr = String.valueOf(longitude);
-
-                    SharedPreferences.Editor editor = Profile_preferences.edit();
-                    editor.putString("Latitude",latitudeStr);
-                    editor.putString("Longititude",longitudeStr);
-
-                    editor.apply();
-
-                   String First_Name = Profile_preferences.getString("First_Name",null);
-                   String Last_Name  =       Profile_preferences.getString("Last_Name",null);
-                   String Email =          Profile_preferences.getString("Email",null);
-                   String password =           Profile_preferences.getString("Password",null);
-                   String DateOfBirth =             Profile_preferences.getString("Date_Of_Birth",null);
-                   String Gender =          Profile_preferences.getString("Gender",null);
-                   String profile_Image_Url =         Profile_preferences.getString("Profile_Image_Url",null);
-                   String Education_Board =        Profile_preferences.getString("Education_Board",null);
-                   String  Class_Grade   =      Profile_preferences.getString("Class_Grade",null);
-                   String School_private =         Profile_preferences.getString("School_private",null);
-                   String  Field_OfStudy=           Profile_preferences.getString("Field_OfStudy",null);
-                   String Latest_Qualification =         Profile_preferences.getString("Latest_Qualification",null);
-                   String Longitude =  Profile_preferences.getString("Longititude",null);
-                   String Latitude  =        Profile_preferences.getString("Latitude",null);
-
-
-
-
-                   databaseReference = FirebaseDatabase.getInstance().getReference("users");
-
-                   String UserId= databaseReference.push().getKey();
-                    UserClass New_Profile= new UserClass(First_Name,Last_Name,Email,password,DateOfBirth,Gender,profile_Image_Url,Education_Board,Class_Grade,School_private,Field_OfStudy,Latest_Qualification,Longitude,Latitude);
-                            databaseReference
-                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                            .setValue(New_Profile)
-                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-
-                                    if (task.isSuccessful()){
-                                        Toast.makeText(MapsActivity.this,"You've been registered successfully.",Toast.LENGTH_SHORT);
-                                        startActivity(new Intent(MapsActivity.this,ProfileActivity.class));
-                                        finishAfterTransition();
-
-                                    }
-
-                                    else {
-
-                                        Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_SHORT);
-                                    }
-
-
-                                }
-                            });
+//                if (longitude!=0.0d && latitude!=0.0d) {
+//                    Log.d(TAG, "global lat and long: " + latitude);
+//                   // Intent intent = new Intent(MapsActivity.this, Result.class);
+//                    String longitudeStr, latitudeStr;
+//                    latitudeStr = String.valueOf(latitude);
+//                    longitudeStr = String.valueOf(longitude);
+//
+//                    SharedPreferences.Editor editor = Profile_preferences.edit();
+//                    editor.putString("Latitude",latitudeStr);
+//                    editor.putString("Longititude",longitudeStr);
+//
+//                    editor.apply();
+//
+//                   String First_Name = Profile_preferences.getString("First_Name",null);
+//                   String Last_Name  =       Profile_preferences.getString("Last_Name",null);
+//                   String Email =          Profile_preferences.getString("Email",null);
+//                   String password =           Profile_preferences.getString("Password",null);
+//                   String DateOfBirth =             Profile_preferences.getString("Date_Of_Birth",null);
+//                   String Gender =          Profile_preferences.getString("Gender",null);
+//                   String profile_Image_Url =         Profile_preferences.getString("Profile_Image_Url",null);
+//                   String Education_Board =        Profile_preferences.getString("Education_Board",null);
+//                   String  Class_Grade   =      Profile_preferences.getString("Class_Grade",null);
+//                   String School_private =         Profile_preferences.getString("School_private",null);
+//                   String  Field_OfStudy=           Profile_preferences.getString("Field_OfStudy",null);
+//                   String Latest_Qualification =         Profile_preferences.getString("Latest_Qualification",null);
+//                   String Longitude =  Profile_preferences.getString("Longititude",null);
+//                   String Latitude  =        Profile_preferences.getString("Latitude",null);
+//
+//
+//
+//
+//                   databaseReference = FirebaseDatabase.getInstance().getReference("users");
+//
+//                   String UserId= databaseReference.push().getKey();
+//                    UserClass New_Profile= new UserClass(First_Name,Last_Name,Email,password,DateOfBirth,Gender,profile_Image_Url,Education_Board,Class_Grade,School_private,Field_OfStudy,Latest_Qualification,Longitude,Latitude);
+//                            databaseReference
+//                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+//                            .setValue(New_Profile)
+//                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                @Override
+//                                public void onComplete(@NonNull Task<Void> task) {
+//
+//                                    if (task.isSuccessful()){
+//                                        Toast.makeText(MapsActivity.this,"You've been registered successfully.", LENGTH_SHORT);
+//                                        startActivity(new Intent(MapsActivity.this,ProfileActivity.class));
+//                                        finishAfterTransition();
+//
+//                                    }
+//
+//                                    else {
+//
+//                                        Toast.makeText(getApplicationContext(),task.getException().getMessage(), LENGTH_SHORT);
+//                                    }
+//
+//
+//                                }
+//                            });
 
 
 
@@ -278,35 +282,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //                    intent.putExtra("Longitude", latitudeStr);
 //                    intent.putExtra("Latitude", longitudeStr);
 //                    startActivity(intent);
-                }
+     //           }
             }
         });
     }
 
-    private void geoLocate() {
-        Log.d(TAG, "geoLocate: geolocating");
-
-        String searchString = mSearchText.getText().toString();
-
-        Geocoder geocoder = new Geocoder(MapsActivity.this);
-        List<Address> list = new ArrayList<>();
-        try {
-            list = geocoder.getFromLocationName(searchString, 1);
-        } catch (IOException e) {
-            Log.e(TAG, "geoLocate: IOException: " + e.getMessage());
-        }
-
-        if (list.size() > 0) {
-            Address address = list.get(0);
-
-            Log.d(TAG, "geoLocate: found a location: " + address.toString());
-            //Toast.makeText(this, address.toString(), Toast.LENGTH_SHORT).show();
-            latitude = address.getLatitude();
-            longitude = address.getLongitude();
-            moveCameraToSearchLocation(new LatLng(latitude, longitude), DEFAULT_ZOOM);
-
-        }
-    }
+//    private void geoLocate() {
+//        Log.d(TAG, "geoLocate: geolocating");
+//
+//        String searchString = mSearchText.getText().toString();
+//
+//        Geocoder geocoder = new Geocoder(MapsActivity.this);
+//        List<Address> list = new ArrayList<>();
+//        try {
+//            list = geocoder.getFromLocationName(searchString, 1);
+//        } catch (IOException e) {
+//            Log.e(TAG, "geoLocate: IOException: " + e.getMessage());
+//        }
+//
+//        if (list.size() > 0) {
+//            Address address = list.get(0);
+//
+//            Log.d(TAG, "geoLocate: found a location: " + address.toString());
+//            //Toast.makeText(this, address.toString(), Toast.LENGTH_SHORT).show();
+//            latitude = address.getLatitude();
+//            longitude = address.getLongitude();
+//            moveCameraToSearchLocation(new LatLng(latitude, longitude), DEFAULT_ZOOM);
+//
+//        }
+//    }
 
     private void getDeviceLocation() {
         Log.d(TAG, "getDeviceLocation: getting the devices current location");
@@ -328,7 +332,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                                 } else {
                                     Log.d(TAG, "onComplete: current location is null");
-                                    Toast.makeText(MapsActivity.this, "unable to get current location", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(MapsActivity.this, "unable to get current location", LENGTH_SHORT).show();
                                 }
                             }catch (NullPointerException e){
                                 Log.d(TAG, "onComplete: Nullpointer" + e.getMessage());
@@ -342,44 +346,104 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+    private void moveCameraToTutorsLocation(LatLng latLng, float defaultZoom) {
+        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, defaultZoom));
+        Marker marker= mMap.addMarker(new MarkerOptions()
+                .position(latLng)
+                .title(FirstName +" " + LastName)
+
+        //.draggable(true)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pinpoint)));
+        mMap.setOnInfoWindowClickListener(this);
+        //mMap.setOnMarkerDragListener(this);
+
+    }
+
     private void moveCameraToMyLocation(LatLng latLng, float zoom) {
-        mMap.clear();
         mSearchText.setText("");
         Log.d(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
-        Marker marker= mMap.addMarker(new MarkerOptions()
+        if (circle==null) {
+            circle = mMap.addCircle(new CircleOptions()
+                    .center(new LatLng(latitude, longitude))
+                    .radius(250)
+                    .strokeWidth(5)
+                    .strokeColor(Color.rgb(7, 160, 225))
+                    .fillColor(0x220000FF));
+        }
+// }
+  Marker marker= mMap.addMarker(new MarkerOptions()
                 .position(latLng)
-                .title("Is this you? Hard press me to locate precisely")
-                .draggable(true)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pinpoint)));
+                .title("Here I'm!")
+////                .snippet("Population: 4,137,400")
+//.draggable(true)
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_person)));
         marker.showInfoWindow();
-        mMap.setOnInfoWindowClickListener(this);
-        mMap.setOnMarkerDragListener(this);
-
+// mMap.setOnInfoWindowClickListener(this);
+//        //mMap.setOnMarkerDragListener(this);
     }
 
-    private void moveCameraToSearchLocation(LatLng latLng, float zoom) {
-        mMap.clear();
-        Log.d(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
-        Marker marker= mMap.addMarker(new MarkerOptions()
-                .position(latLng)
-                .title("Is this you? Hard press me to locate precisely")
-                .draggable(true)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pinpoint)));
-        marker.showInfoWindow();
-        hideSoftKeyboard();
-        mMap.setOnInfoWindowClickListener(this);
-        mMap.setOnMarkerDragListener(this);
-
-    }
+//    private void moveCameraToSearchLocation(LatLng latLng, float zoom) {
+//        mMap.clear();
+//        Log.d(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude);
+//        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
+//        Marker marker= mMap.addMarker(new MarkerOptions()
+//                .position(latLng)
+//                .title("Is this you? Hard press me to locate precisely")
+//                .draggable(true)
+//                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pinpoint)));
+//        marker.showInfoWindow();
+//        hideSoftKeyboard();
+//        mMap.setOnInfoWindowClickListener(this);
+//        mMap.setOnMarkerDragListener(this);
+//
+//    }
 
     private void initMap() {
+        //reading firestore data
+        retrieveData();
+        getDeviceLocation();
         Log.d(TAG, "initMap: initializing map");
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
 
         mapFragment.getMapAsync(MapsActivity.this);
 
+
+    }
+
+    //reading data from firestore
+    private void retrieveData(){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("Tutors")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                //Log.d(TAG, document.getId() + " => " + document.get("Latitude"));
+                                Toast.makeText(MapsActivity.this, document.get("Latitude").toString(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(MapsActivity.this, document.get("Longitiude").toString(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(MapsActivity.this, document.get("FirstName").toString(), Toast.LENGTH_LONG).show();
+                                Toast.makeText(MapsActivity.this, document.get("LastName").toString(), Toast.LENGTH_LONG).show();
+
+
+                                try {
+                                    FirstName = document.get("FirstName").toString();
+                                    LastName = document.get("LastName").toString();
+                                    latitude = Double.parseDouble(document.get("Latitude").toString());
+                                    longitude = Double.parseDouble(document.get("Longitiude").toString());
+                                    moveCameraToTutorsLocation(new LatLng(latitude, longitude), DEFAULT_ZOOM);
+                                }catch (NullPointerException e) {
+                                    Log.d(TAG, "onComplete: Exception" + e.getMessage());
+                                }
+                            }
+
+                        } else {
+                            Log.w(TAG, "Error getting documents.", task.getException());
+                        }
+                    }
+                });
 
     }
 
@@ -434,35 +498,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onInfoWindowClick(Marker marker) {
-      //  Toast.makeText(this, marker.getTitle(), Toast.LENGTH_LONG).show();
+        //marker.showInfoWindow();
     }
 
-    @Override
-    public void onMarkerDragStart(Marker marker) {
-        LatLng position0 = marker.getPosition();
-
-        Log.d(getClass().getSimpleName(), String.format("Drag from %f:%f",
-                position0.latitude,
-                position0.longitude));
-    }
-
-    @Override
-    public void onMarkerDrag(Marker marker) {
-        LatLng position0 = marker.getPosition();
-        Log.d(getClass().getSimpleName(),
-                String.format("Dragging to %f:%f", position0.latitude,
-                        position0.longitude));
-    }
-
-    @Override
-    public void onMarkerDragEnd(Marker marker) {
-        LatLng position = marker.getPosition();
-        latitude = position.latitude;
-        longitude = position.latitude;
-        Log.d(getClass().getSimpleName(), String.format("Dragged to %f:%f",
-                position.latitude,
-                position.longitude));
-    }
+//    @Override
+//    public void onMarkerDragStart(Marker marker) {
+//        LatLng position0 = marker.getPosition();
+//
+//        Log.d(getClass().getSimpleName(), String.format("Drag from %f:%f",
+//                position0.latitude,
+//                position0.longitude));
+//    }
+//
+//    @Override
+//    public void onMarkerDrag(Marker marker) {
+//        LatLng position0 = marker.getPosition();
+//        Log.d(getClass().getSimpleName(),
+//                String.format("Dragging to %f:%f", position0.latitude,
+//                        position0.longitude));
+//    }
+//
+//    @Override
+//    public void onMarkerDragEnd(Marker marker) {
+//        LatLng position = marker.getPosition();
+//        latitude = position.latitude;
+//        longitude = position.latitude;
+//        Log.d(getClass().getSimpleName(), String.format("Dragged to %f:%f",
+//                position.latitude,
+//                position.longitude));
+//    }
 
 
     private void hideSoftKeyboard() {
@@ -517,9 +581,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             longitude = place.getViewport().getCenter().longitude;
 
 
-            moveCameraToSearchLocation(new LatLng(place.getViewport().getCenter().latitude,
-                    place.getViewport().getCenter().longitude), DEFAULT_ZOOM);
-            places.release();
+//            moveCameraToSearchLocation(new LatLng(place.getViewport().getCenter().latitude,
+//                    place.getViewport().getCenter().longitude), DEFAULT_ZOOM);
+//            places.release();
         }
     };
 }
