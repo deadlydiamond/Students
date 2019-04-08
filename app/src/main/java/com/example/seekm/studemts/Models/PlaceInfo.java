@@ -1,4 +1,4 @@
-package com.example.seekm.uitrial.Models;
+package com.example.seekm.studemts.Models;
 
 import android.net.Uri;
 

@@ -1,38 +1,34 @@
 package com.example.seekm.studemts;
 
-import android.*;
 import android.Manifest;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.system.ErrnoException;
 import android.util.Log;
-import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.seekm.uitrial.Models.PlaceInfo;
+import com.example.seekm.studemts.Models.PlaceInfo;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -57,14 +53,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.*;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import static android.widget.Toast.LENGTH_SHORT;
 
@@ -74,11 +67,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
         GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnInfoWindowClickListener{ //GoogleMap.OnMarkerDragListener {
-    SharedPreferences Profile_preferences ;
-    FirebaseAuth mAuth;
-    DatabaseReference databaseReference;
-    Circle circle;
-    String FirstName, LastName;
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
@@ -86,7 +74,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-       // Toast.makeText(this, "Map is Ready", Toast.LENGTH_SHORT).show();
+        // Toast.makeText(this, "Map is Ready", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "onMapReady: map is ready");
         mMap = googleMap;
 
@@ -105,12 +93,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+
     private static final String TAG = "MapActivity";
 
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
     private static final float DEFAULT_ZOOM = 16.5f;
+    private static final float DEFAULT_RADIUS = 250;
     private static final LatLngBounds LAT_LNG_BOUNDS = new LatLngBounds(
             new LatLng(-40, -168), new LatLng(71, 136));
     //widgets
@@ -118,30 +108,97 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private ImageButton mNext, mGps;
 
     //vars
+    SharedPreferences Profile_preferences ;
+    FirebaseAuth mAuth;
+    DatabaseReference databaseReference;
+    Circle circle;
+    String FirstName, LastName;
+    Dialog locationDialog;
     private double latitude, longitude;
+    private double latitudeDevice, longitudeDevice;
     private Boolean mLocationPermissionsGranted = false;
     private GoogleMap mMap;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private PlaceAutocompleteAdapter mPlaceAutocompleteAdapter;
     private GoogleApiClient mGoogleApiClient;
     private PlaceInfo mPlace;
-
-
-    FirebaseDatabase myDB;
-
+    TextView OK, Cancel;
+    SeekBar seekbar;
+    Float radius = DEFAULT_RADIUS, zoom = DEFAULT_ZOOM;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
         mSearchText = (AutoCompleteTextView) findViewById(R.id.input_search);
+        statusCheck();
+        getDeviceLocation();
         mGps = (ImageButton) findViewById(R.id.ic_gps);
         mNext = (ImageButton)findViewById(R.id.next);
+        seekbar = (SeekBar)findViewById(R.id.seekBar);
         getLocationPermission();
 
         Profile_preferences = getApplicationContext().getSharedPreferences("Profile_Preferecens",0);
         mAuth = FirebaseAuth.getInstance();
 
+    }
+
+
+    //Location Alert
+    public boolean statusCheck() {
+        final LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            buildAlertMessageNoGps();
+            getDeviceLocation();
+            return true;
+        }
+        return false;
+    }
+
+    private void buildAlertMessageNoGps() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.activity_custom_location, null);
+        builder.setView(dialogView);
+        builder
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        dialog.cancel();
+                        dialog.dismiss();
+                        startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                        getDeviceLocation();
+                    }
+                })
+                .setNegativeButton("NO THANKS   ", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        //dialog.dismiss();
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
+        getDeviceLocation();
+//        locationDialog = new Dialog(this);
+//        locationDialog.setContentView(R.layout.activity_custom_location);
+//        OK = (TextView) locationDialog.findViewById(R.id.OK);
+//        Cancel = (TextView) locationDialog.findViewById(R.id.NO);
+//
+//
+//        OK.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+//            }
+//        });
+//        Cancel.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                locationDialog.hide();
+//            }
+//        });
+//        locationDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//        locationDialog.show();
     }
 
     private void init() {
@@ -178,11 +235,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mGps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "onClick:  Clicked gps icon");
-                if (mLocationPermissionsGranted){
+                if (statusCheck() == true) {
                     getDeviceLocation();
                 }
-                else {
+                Log.d(TAG, "onClick:  Clicked gps icon");
+                if (mLocationPermissionsGranted) {
+                    getDeviceLocation();
+                } else {
                     try {
                         Log.d(TAG, "getLocationPermission: getting location permissions");
                         String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION,
@@ -205,113 +264,55 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                     LOCATION_PERMISSION_REQUEST_CODE);
                         }
 
-                    }catch (Error e) {
+                    } catch (Error e) {
                         Log.d(TAG, "onClick: Error on Click" + e.getMessage());
                     }
                 }
             }
         });
-
-        mNext.setOnClickListener(new View.OnClickListener() {
+        //seekbar
+        seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onClick(View view) {
-//                if (longitude!=0.0d && latitude!=0.0d) {
-//                    Log.d(TAG, "global lat and long: " + latitude);
-//                   // Intent intent = new Intent(MapsActivity.this, Result.class);
-//                    String longitudeStr, latitudeStr;
-//                    latitudeStr = String.valueOf(latitude);
-//                    longitudeStr = String.valueOf(longitude);
-//
-//                    SharedPreferences.Editor editor = Profile_preferences.edit();
-//                    editor.putString("Latitude",latitudeStr);
-//                    editor.putString("Longititude",longitudeStr);
-//
-//                    editor.apply();
-//
-//                   String First_Name = Profile_preferences.getString("First_Name",null);
-//                   String Last_Name  =       Profile_preferences.getString("Last_Name",null);
-//                   String Email =          Profile_preferences.getString("Email",null);
-//                   String password =           Profile_preferences.getString("Password",null);
-//                   String DateOfBirth =             Profile_preferences.getString("Date_Of_Birth",null);
-//                   String Gender =          Profile_preferences.getString("Gender",null);
-//                   String profile_Image_Url =         Profile_preferences.getString("Profile_Image_Url",null);
-//                   String Education_Board =        Profile_preferences.getString("Education_Board",null);
-//                   String  Class_Grade   =      Profile_preferences.getString("Class_Grade",null);
-//                   String School_private =         Profile_preferences.getString("School_private",null);
-//                   String  Field_OfStudy=           Profile_preferences.getString("Field_OfStudy",null);
-//                   String Latest_Qualification =         Profile_preferences.getString("Latest_Qualification",null);
-//                   String Longitude =  Profile_preferences.getString("Longititude",null);
-//                   String Latitude  =        Profile_preferences.getString("Latitude",null);
-//
-//
-//
-//
-//                   databaseReference = FirebaseDatabase.getInstance().getReference("users");
-//
-//                   String UserId= databaseReference.push().getKey();
-//                    UserClass New_Profile= new UserClass(First_Name,Last_Name,Email,password,DateOfBirth,Gender,profile_Image_Url,Education_Board,Class_Grade,School_private,Field_OfStudy,Latest_Qualification,Longitude,Latitude);
-//                            databaseReference
-//                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-//                            .setValue(New_Profile)
-//                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                @Override
-//                                public void onComplete(@NonNull Task<Void> task) {
-//
-//                                    if (task.isSuccessful()){
-//                                        Toast.makeText(MapsActivity.this,"You've been registered successfully.", LENGTH_SHORT);
-//                                        startActivity(new Intent(MapsActivity.this,ProfileActivity.class));
-//                                        finishAfterTransition();
-//
-//                                    }
-//
-//                                    else {
-//
-//                                        Toast.makeText(getApplicationContext(),task.getException().getMessage(), LENGTH_SHORT);
-//                                    }
-//
-//
-//                                }
-//                            });
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                circle.remove();
+                float factor = 0.15f;
+                if (radius >= DEFAULT_RADIUS) {
+                    updateCircle(radius * progress);
+                    updateZoom((float) (zoom-(progress*factor)));
+                    factor = factor * 0.002f;
+                    //updateZoom(zoom * progress)
+                    // ;
+                } else {
+                        updateCircle(radius / progress);
+                        updateZoom((float) (zoom*0.5));
+                    //updateZoom(zoom * progress);
+                }
+                //updateZoom(zoom /progress);
 
+            }
 
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
 
+            }
 
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
 
-
-                 //   startActivity(new Intent(ProfileBuilder.this,MapsActivity.class));
-//                    intent.putExtra("Longitude", latitudeStr);
-//                    intent.putExtra("Latitude", longitudeStr);
-//                    startActivity(intent);
-     //           }
             }
         });
+
     }
+        //update zoom
+     private void updateZoom(float zoom){
+        if (zoom>DEFAULT_ZOOM){
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(zoom),2000,null);
+        }
+        else{
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(zoom),2000,null);
 
-//    private void geoLocate() {
-//        Log.d(TAG, "geoLocate: geolocating");
-//
-//        String searchString = mSearchText.getText().toString();
-//
-//        Geocoder geocoder = new Geocoder(MapsActivity.this);
-//        List<Address> list = new ArrayList<>();
-//        try {
-//            list = geocoder.getFromLocationName(searchString, 1);
-//        } catch (IOException e) {
-//            Log.e(TAG, "geoLocate: IOException: " + e.getMessage());
-//        }
-//
-//        if (list.size() > 0) {
-//            Address address = list.get(0);
-//
-//            Log.d(TAG, "geoLocate: found a location: " + address.toString());
-//            //Toast.makeText(this, address.toString(), Toast.LENGTH_SHORT).show();
-//            latitude = address.getLatitude();
-//            longitude = address.getLongitude();
-//            moveCameraToSearchLocation(new LatLng(latitude, longitude), DEFAULT_ZOOM);
-//
-//        }
-//    }
-
+        }
+    }
     private void getDeviceLocation() {
         Log.d(TAG, "getDeviceLocation: getting the devices current location");
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
@@ -321,22 +322,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 location.addOnCompleteListener(new OnCompleteListener() {
                     @Override
                     public void onComplete(@NonNull Task task) {
-                            try {
-                                if (task.isSuccessful()) {
-                                    Log.d(TAG, "onComplete: found location!");
-                                    Location currentLocation = (Location) task.getResult();
-                                    latitude = currentLocation.getLatitude();
-                                    longitude = currentLocation.getLongitude();
-                                    moveCameraToMyLocation(new LatLng(latitude, longitude),
-                                            DEFAULT_ZOOM);
+                        try {
+                            if (task.isSuccessful()) {
+                                Log.d(TAG, "onComplete: found location!");
+                                Location currentLocation = (Location) task.getResult();
+                                latitudeDevice = currentLocation.getLatitude();
+                                longitudeDevice = currentLocation.getLongitude();
+                                moveCameraToMyLocation(new LatLng(latitudeDevice, longitudeDevice),
+                                        DEFAULT_ZOOM);
 
-                                } else {
-                                    Log.d(TAG, "onComplete: current location is null");
-                                    Toast.makeText(MapsActivity.this, "unable to get current location", LENGTH_SHORT).show();
-                                }
-                            }catch (NullPointerException e){
-                                Log.d(TAG, "onComplete: Nullpointer" + e.getMessage());
+                            } else {
+                                Log.d(TAG, "onComplete: current location is null");
+                                Toast.makeText(MapsActivity.this, "unable to get current location", LENGTH_SHORT).show();
                             }
+                        }catch (NullPointerException e){
+                            Log.d(TAG, "onComplete: Nullpointer" + e.getMessage());
+                        }
                     }
                 });
             }
@@ -346,17 +347,42 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
+
+
     private void moveCameraToTutorsLocation(LatLng latLng, float defaultZoom) {
         //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, defaultZoom));
         Marker marker= mMap.addMarker(new MarkerOptions()
                 .position(latLng)
                 .title(FirstName +" " + LastName)
 
-        //.draggable(true)
+                //.draggable(true)
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pinpoint)));
         mMap.setOnInfoWindowClickListener(this);
         //mMap.setOnMarkerDragListener(this);
 
+    }
+
+    //update Circle
+    private void updateCircle(float r){
+        if (r>=DEFAULT_RADIUS) {
+            circle = mMap.addCircle(new CircleOptions()
+                    .center(new LatLng(latitudeDevice, longitudeDevice))
+                    .radius(r)
+                    .strokeWidth(5)
+                    .strokeColor(Color.rgb(7, 160, 225))
+                    .fillColor(0x220000FF));
+
+            Toast.makeText(MapsActivity.this, "radius: " + r, Toast.LENGTH_LONG).show();
+        }
+        else{
+            circle = mMap.addCircle(new CircleOptions()
+                    .center(new LatLng(latitudeDevice, longitudeDevice))
+                    .radius(DEFAULT_RADIUS)
+                    .strokeWidth(5)
+                    .strokeColor(Color.rgb(7, 160, 225))
+                    .fillColor(0x220000FF));
+
+        }
     }
 
     private void moveCameraToMyLocation(LatLng latLng, float zoom) {
@@ -371,13 +397,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     .strokeColor(Color.rgb(7, 160, 225))
                     .fillColor(0x220000FF));
         }
+
 // }
-  Marker marker= mMap.addMarker(new MarkerOptions()
+        Marker marker= mMap.addMarker(new MarkerOptions()
                 .position(latLng)
-                .title("Here I'm!")
+                .title("")
 ////                .snippet("Population: 4,137,400")
 //.draggable(true)
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_person)));
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_pin)));
         marker.showInfoWindow();
 // mMap.setOnInfoWindowClickListener(this);
 //        //mMap.setOnMarkerDragListener(this);
@@ -400,8 +427,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //    }
 
     private void initMap() {
-        //reading firestore data
+        //statusCheck();
+        //reading data
         retrieveData();
+
         getDeviceLocation();
         Log.d(TAG, "initMap: initializing map");
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -422,11 +451,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 //Log.d(TAG, document.getId() + " => " + document.get("Latitude"));
-                                Toast.makeText(MapsActivity.this, document.get("Latitude").toString(), Toast.LENGTH_LONG).show();
-                                Toast.makeText(MapsActivity.this, document.get("Longitiude").toString(), Toast.LENGTH_LONG).show();
-                                Toast.makeText(MapsActivity.this, document.get("FirstName").toString(), Toast.LENGTH_LONG).show();
-                                Toast.makeText(MapsActivity.this, document.get("LastName").toString(), Toast.LENGTH_LONG).show();
-
 
                                 try {
                                     FirstName = document.get("FirstName").toString();

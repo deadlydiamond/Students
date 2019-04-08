@@ -22,7 +22,7 @@
         <activity android:name=".History" />
         <activity android:name=".Messages" />
         <activity android:name=".Advert" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MapsActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -70,7 +70,6 @@
         <activity android:name=".SigninPasswordActivity" />
         <activity android:name=".UserForgotPassword" />
         <activity android:name=".ProfileBuilder" />
-        <activity android:name=".MapsActivity" />
         <activity android:name=".Drawer" />
 
         <meta-data

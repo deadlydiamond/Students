@@ -13,6 +13,22 @@
     <string name="label_emailpassword">Email/Password Authentication</string>
     <string name="desc_emailpassword">Use an email and password to authenticate with Firebase.</string>
 
+    <string name="locationAlert1">"For a better experience, turn on device location, which uses Google's location service."
+    </string>
+
+    <string name="locationAlert2">"Your device will need to:"
+    </string>
+
+    <string name="locationAlert3">"Use GPS, Wi-Fi, cell networks, and sensors"
+    </string>
+
+    <string name="locationAlert4">"Use Google's location service; as part of this service Google may collect location data periodically and use this data in an annonymous way to improve location accuracy and location-based services."
+    </string>
+
+    <string name="locationAlert5">
+        "This may change the location mode you've selected for your device. For details go to Settings > Location.
+    </string>
+
     <string name="label_passwordless">Passwordless Authentication</string>
     <string name="desc_passwordless">Use only an email to authenticate with Firebase.</string>
 
