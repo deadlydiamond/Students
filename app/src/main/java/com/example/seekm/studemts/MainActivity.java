@@ -27,8 +27,8 @@ import android.widget.VideoView;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import com.example.seekm.studemts.OnBoarding_1;
 
+import com.example.seekm.studemts.OnBoarding_1;
 
 public class MainActivity extends AppCompatActivity {
     static final String TAG = "MAINACTIVITY";
@@ -48,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 //        getSupportActionBar().hide();
 
-
         try {
             videoView = (VideoView) findViewById(R.id.videoView);
             Uri video = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.video);
@@ -60,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
                     if (isFinishing())
                         return;
 
-                    Intent intent = new Intent(MainActivity.this, DocsAttachmentActivity.class);
+                    Intent intent = new Intent(MainActivity.this, MobileV.class);
                     startActivity(intent);
                     printKeyHash();
                     finish();
@@ -69,30 +68,23 @@ public class MainActivity extends AppCompatActivity {
             videoView.start();
         } catch (Error err) {
             Log.d(TAG, "onCreateInMainActivity: " + err.getMessage());
-            Intent intent = new Intent(MainActivity.this, DocsAttachmentActivity.class);
+            Intent intent = new Intent(MainActivity.this, MobileV.class);
             startActivity(intent);
             printKeyHash();
         }
-
     }
 
-
     private void printKeyHash() {
-        try{
+        try {
 
-            PackageInfo  Info = getPackageManager().getPackageInfo("com.example.seekm.uitrial", PackageManager.GET_SIGNATURES);
+            PackageInfo Info = getPackageManager().getPackageInfo("com.example.seekm.uitrial", PackageManager.GET_SIGNATURES);
 
-            for(Signature Signature:Info.signatures){
-
+            for (Signature Signature : Info.signatures) {
 
                 MessageDigest messageDigest = MessageDigest.getInstance("SHA");
                 messageDigest.update(Signature.toByteArray());
-                Log.e("KEYHASH",Base64.encodeToString(messageDigest.digest(),Base64.DEFAULT));
-
-
-
+                Log.e("KEYHASH", Base64.encodeToString(messageDigest.digest(), Base64.DEFAULT));
             }
-
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         } catch (NoSuchAlgorithmException e) {

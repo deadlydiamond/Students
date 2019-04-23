@@ -93,7 +93,7 @@ public class ProfileBuilder extends AppCompatActivity implements View.OnClickLis
             editor.putString("Latest_Qualification",latest_Qualification);
             editor.apply();
 
-            startActivity(new Intent(ProfileBuilder.this,DocsAttachmentActivity.class));
+            startActivity(new Intent(ProfileBuilder.this,MapsActivity.class));
 
 
 

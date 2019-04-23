@@ -193,6 +193,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         alert.show();
         getDeviceLocation();
     }
+
     /*__________________________________________________INIT_________________________________________________________*/
 
     private void init() {
@@ -204,7 +205,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .addApi(Places.PLACE_DETECTION_API)
                 .enableAutoManage(this, this)
                 .build();
+        /*__________________________________________________NEXT BUTTON_________________________________________________________*/
+        mNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MapsActivity.this, Drawer.class);
+                startActivity(intent);
+            }
+        });
 
+        /*__________________________________________________GPS BUTTON_________________________________________________________*/
         mGps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

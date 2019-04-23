@@ -17,8 +17,9 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="32dp"
         android:layout_marginRight="32dp"
+        android:textSize="20sp"
         android:fontFamily="@font/montserrat"
-        android:text="Let us help you in getting started!"
+        android:text="Let' get started!"
         android:textColor="@android:color/white"
         app:layout_constraintDimensionRatio="1:0.1"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,38 +28,38 @@
 
     <!--<android.support.v7.widget.CardView-->
 
-        <!--android:layout_width="80dp"-->
-        <!--android:layout_height="80dp"-->
-        <!--android:elevation="12dp"-->
-        <!--android:id="@+id/ainvayi"-->
-        <!--android:layout_centerHorizontal="true"-->
-        <!--app:cardCornerRadius="40dp"-->
+    <!--android:layout_width="80dp"-->
+    <!--android:layout_height="80dp"-->
+    <!--android:elevation="12dp"-->
+    <!--android:id="@+id/ainvayi"-->
+    <!--android:layout_centerHorizontal="true"-->
+    <!--app:cardCornerRadius="40dp"-->
 
 
-        <!--&gt;-->
+    <!--&gt;-->
 
 
 
-        <!--<ImageButton-->
-            <!--android:id="@+id/sign_up_image_button"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="80dp"-->
-            <!--android:layout_marginStart="8dp"-->
-            <!--android:layout_marginTop="16dp"-->
-            <!--android:layout_marginEnd="8dp"-->
-            <!--android:layout_marginBottom="8dp"-->
-            <!--android:layout_centerHorizontal="true"-->
-            <!--android:layout_centerVertical="true"-->
-            <!--android:background="@drawable/blue_circle"-->
-            <!--android:scaleType="centerCrop"-->
-            <!--android:clickable="true"-->
-            <!--app:layout_constraintBottom_toBottomOf="parent"-->
-            <!--app:layout_constraintDimensionRatio="1:1"-->
-            <!--app:layout_constraintEnd_toEndOf="parent"-->
-            <!--app:layout_constraintStart_toStartOf="parent"-->
-            <!--app:layout_constraintTop_toBottomOf="@+id/textView9"-->
-            <!--app:layout_constraintVertical_bias="0.0"-->
-            <!--app:srcCompat="@drawable/ic_add" />-->
+    <!--<ImageButton-->
+    <!--android:id="@+id/sign_up_image_button"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="80dp"-->
+    <!--android:layout_marginStart="8dp"-->
+    <!--android:layout_marginTop="16dp"-->
+    <!--android:layout_marginEnd="8dp"-->
+    <!--android:layout_marginBottom="8dp"-->
+    <!--android:layout_centerHorizontal="true"-->
+    <!--android:layout_centerVertical="true"-->
+    <!--android:background="@drawable/blue_circle"-->
+    <!--android:scaleType="centerCrop"-->
+    <!--android:clickable="true"-->
+    <!--app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--app:layout_constraintDimensionRatio="1:1"-->
+    <!--app:layout_constraintEnd_toEndOf="parent"-->
+    <!--app:layout_constraintStart_toStartOf="parent"-->
+    <!--app:layout_constraintTop_toBottomOf="@+id/textView9"-->
+    <!--app:layout_constraintVertical_bias="0.0"-->
+    <!--app:srcCompat="@drawable/ic_add" />-->
 
 
 
@@ -139,7 +140,7 @@
         android:hint="First Name"
         android:imeOptions="actionNext"
         android:inputType="textPersonName"
-        android:textSize="10sp"
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView7"
@@ -183,7 +184,7 @@
         android:hint="Last Name"
         android:imeOptions="actionNext"
         android:inputType="textPersonName"
-        android:textSize="10sp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView10"
         app:layout_constraintTop_toBottomOf="@+id/edit_text_first_name" />
@@ -201,7 +202,7 @@
         android:hint="Email"
         android:imeOptions="actionNext"
         android:inputType="textEmailAddress"
-        android:textSize="10sp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView16"
         app:layout_constraintTop_toBottomOf="@+id/edit_text_last_name" />
@@ -232,7 +233,7 @@
         android:hint="Password"
         android:imeOptions="actionNext"
         android:inputType="textPassword"
-        android:textSize="10sp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView18"
         app:layout_constraintTop_toBottomOf="@+id/edit_text_email" />
@@ -240,7 +241,7 @@
     <EditText
         android:id="@+id/edit_text_confirm_pwd"
         android:layout_width="0dp"
-        android:layout_height="35dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
@@ -250,7 +251,7 @@
         android:hint="Re-enter Password"
         android:imeOptions="actionNext"
         android:inputType="textPassword"
-        android:textSize="10sp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView19"
         app:layout_constraintTop_toBottomOf="@+id/edit_text_pwd" />
@@ -280,7 +281,7 @@
         android:hint="Date of birth"
         android:imeOptions="actionDone"
         android:inputType="date"
-        android:textSize="10sp"
+        android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/imageView20"
         app:layout_constraintTop_toBottomOf="@+id/edit_text_confirm_pwd" />
@@ -310,7 +311,7 @@
             android:scaleY="0.9"
             android:text="Male"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="12sp" />
+            android:textSize="20sp" />
 
         <RadioButton
             android:id="@+id/radio_btn_female"
@@ -323,7 +324,7 @@
             android:scaleY="0.9"
             android:text="Female"
             android:textColor="@color/colorPrimaryDark"
-            android:textSize="12sp" />
+            android:textSize="20sp" />
     </RadioGroup>
 
     <android.support.design.widget.FloatingActionButton
@@ -371,7 +372,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/User_email_logged_In" />
 
-    <!--10sp"-->
+    <!--16sp"-->
     <!--app:constraintEnd_toEndOf="parent"-->
     <!--app:l-->
     <!--straintHorizontal_bias="0.0"-->

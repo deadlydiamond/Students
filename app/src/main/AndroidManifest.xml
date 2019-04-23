@@ -22,10 +22,9 @@
         <activity android:name=".History" />
         <activity android:name=".Messages" />
         <activity android:name=".Advert" />
-        <activity android:name=".MapsActivity">
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -71,7 +70,7 @@
         <activity android:name=".UserForgotPassword" />
         <activity android:name=".ProfileBuilder" />
         <activity android:name=".Drawer" />
-
+        <activity android:name=".MapsActivity"/>
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -79,11 +78,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/api_key" />
 
-        <activity
-            android:name=".DocsAttachmentActivity"
-            android:theme="@style/AppTheme">
-            >
-        </activity>
         <activity android:name=".ProfileActivity" />
     </application>
 

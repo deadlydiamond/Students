@@ -103,7 +103,7 @@
         android:fontFamily="@font/montserrat"
         android:text="Connect with social"
         android:textColor="@android:color/white"
-        android:textSize="14sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

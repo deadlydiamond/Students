@@ -8,11 +8,10 @@
 
     <ImageButton
         android:id="@+id/back_btn_mb_3"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="19dp"
+        android:layout_marginTop="16dp"
         android:background="@null"
         android:rotation="180"
         android:scaleType="fitXY"
@@ -20,20 +19,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_back" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="330dp"
-        android:layout_height="28dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginEnd="8dp"
-        android:fontFamily="@font/montserrat"
-        android:text="Enter the 6-digit code sent to you at +92 "
-        android:textColor="@color/colorAccent"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/back_btn_mb_3" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -58,15 +43,14 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
         android:text="Did you enter the correct mobile number?"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/textView3"
-        app:layout_constraintHorizontal_bias="0.055"
-        app:layout_constraintStart_toStartOf="@+id/textView3"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
-        app:layout_constraintVertical_bias="0.077" />
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/text_view_mb3_2"
+        app:layout_constraintTop_toBottomOf="@+id/text_view_mb3_2" />
 
     <TextView
         android:id="@+id/trouble_mb_ver_1"
@@ -78,7 +62,7 @@
         android:clickable="false"
         android:fontFamily="@font/montserrat"
         android:textColor="@android:color/white"
-        android:textSize="16sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -86,32 +70,33 @@
 
     <EditText
         android:id="@+id/veri_code_1"
-        android:layout_width="31dp"
-        android:layout_height="44dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:ems="10"
+        android:ems="2"
         android:gravity="center"
         android:hint="0"
         android:imeOptions="actionNext"
         android:inputType="text|number"
         android:maxLength="1"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.12"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.24000001" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/textView2"
+        app:layout_constraintVertical_bias="0.0" />
 
     <EditText
         android:id="@+id/veri_code_3"
-        android:layout_width="31dp"
-        android:layout_height="44dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:ems="10"
+        android:ems="2"
+        android:textSize="20sp"
         android:gravity="center"
         android:hint="0"
         android:imeOptions="actionNext"
@@ -124,13 +109,14 @@
 
     <EditText
         android:id="@+id/veri_code_4"
-        android:layout_width="31dp"
-        android:layout_height="44dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:ems="10"
+        android:ems="2"
+        android:textSize="20sp"
         android:gravity="center"
         android:hint="0"
         android:imeOptions="actionNext"
@@ -141,15 +127,28 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/veri_code_3" />
 
+    <TextView
+        android:id="@+id/text_view_mb3_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="123 456789"
+        android:textColor="@color/colorAccent"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
     <EditText
         android:id="@+id/veri_code_5"
-        android:layout_width="31dp"
-        android:layout_height="44dp"
+        android:layout_width="wrap_content"
+        android:textSize="20sp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-        android:ems="10"
+        android:ems="2"
         android:gravity="center"
         android:hint="0"
         android:imeOptions="actionNext"
@@ -162,11 +161,12 @@
 
     <EditText
         android:id="@+id/veri_code_6"
-        android:layout_width="31dp"
-        android:layout_height="44dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:textSize="20sp"
         android:layout_marginEnd="8dp"
-        android:ems="10"
+        android:ems="2"
         android:gravity="center"
         android:hint="0"
         android:inputType="text|number"
@@ -180,18 +180,17 @@
 
     <EditText
         android:id="@+id/veri_code_2"
-        android:layout_width="31dp"
-        android:layout_height="44dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:ems="10"
+        android:ems="2"
         android:gravity="center"
         android:hint="0"
         android:imeOptions="actionNext"
         android:inputType="text|number"
         android:maxLength="1"
+        android:textSize="20sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/veri_code_1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -217,24 +216,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
         app:useCompatPadding="true" />
-
-    <TextView
-        android:id="@+id/text_view_mb3_2"
-        android:layout_width="103dp"
-        android:layout_height="22dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="123 4567890."
-        android:textColor="@color/colorAccent"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.116"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
-        app:layout_constraintVertical_bias="0.0" />
 
     <ProgressBar
         android:id="@+id/progressBar_3"
@@ -270,5 +251,22 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.327" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Enter the six digit code sent you at +92- "
+        android:textColor="@color/colorAccent"
+        android:textSize="22sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.110000014" />
 
 </android.support.constraint.ConstraintLayout>
