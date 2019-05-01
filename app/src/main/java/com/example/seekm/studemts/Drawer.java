@@ -30,7 +30,7 @@ public class Drawer extends AppCompatActivity
     public ImageView Profile_Image;
     public TextView Profile_Email;
     public TextView Profile_Name;
-    ImageView advert,history,nearby,messages;
+    ImageView advert,history,nearby,messages,nearby2;
     public String Image_Url;
 
     SharedPreferences Profile_preferences ;
@@ -77,7 +77,14 @@ public class Drawer extends AppCompatActivity
             }
         });
 
-
+        nearby2= (ImageView)findViewById(R.id.nearbyTutors2);
+        nearby2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Drawer.this,TutorsList.class);
+                startActivity(intent);
+            }
+        });
 
 
 

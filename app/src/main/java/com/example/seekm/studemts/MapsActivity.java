@@ -44,11 +44,16 @@ import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import static android.widget.Toast.LENGTH_SHORT;
 
@@ -103,6 +108,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
     private static final float DEFAULT_ZOOM = 16.5f;
     private static final float DEFAULT_RADIUS = 250;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+
     private static final LatLngBounds LAT_LNG_BOUNDS = new LatLngBounds(
             new LatLng(-40, -168), new LatLng(71, 136));
 
@@ -126,6 +133,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleApiClient mGoogleApiClient;
     SeekBar seekbar;
     Float radius = DEFAULT_RADIUS, zoom = DEFAULT_ZOOM;
+    public String current_userUid;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -209,8 +217,86 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MapsActivity.this, Drawer.class);
-                startActivity(intent);
+
+
+            //   startActivity(new Intent(MapsActivity.this, ProfileActivity.class));
+
+                if (longitude!=0.0d && latitude!=0.0d) {
+                    Log.d(TAG, "global lat and long: " + latitude);
+
+                    // Intent intent = new Intent(MapsActivity.this, Result.class);
+                    String longitudeStr, latitudeStr;
+                    latitudeStr = String.valueOf(latitude);
+                    longitudeStr = String.valueOf(longitude);
+
+                    SharedPreferences.Editor editor = Profile_preferences.edit();
+                    editor.putString("Latitude",latitudeStr);
+                    editor.putString("Longititude",longitudeStr);
+
+                    editor.apply();
+
+                    String First_Name = Profile_preferences.getString("First_Name", null);
+                    String Last_Name = Profile_preferences.getString("Last_Name", null);
+                    String Email = Profile_preferences.getString("Email", null);
+                    String password = Profile_preferences.getString("Password", null);
+                    String DateOfBirth = Profile_preferences.getString("Date_Of_Birth", null);
+                    String Gender = Profile_preferences.getString("Gender", null);
+                    String profile_Image_Url = Profile_preferences.getString("Profile_Image_Url", null);
+                    String Education_Board = Profile_preferences.getString("Education_Board", null);
+                    String Class_Grade = Profile_preferences.getString("Class_Grade", null);
+                    String School_private = Profile_preferences.getString("School_private", null);
+                    String Field_OfStudy = Profile_preferences.getString("Field_OfStudy", null);
+                    String Latest_Qualification = Profile_preferences.getString("Latest_Qualification", null);
+                    String Longitude = Profile_preferences.getString("Longititude", null);
+                    String Latitude = Profile_preferences.getString("Latitude", null);
+
+
+
+
+                    Map<String, Object> Tutor = new HashMap<>();
+                    Tutor.put("User_uid",current_userUid);
+                    Tutor.put("FirstName",First_Name );
+                    Tutor.put("LastName", Last_Name);
+                    Tutor.put("EmailAddress", Email);
+                    Tutor.put("Password", password);
+                    Tutor.put("DateOfBirth",DateOfBirth );
+                    Tutor.put("Gender", Gender);
+                    Tutor.put("ProfileImage_Url",profile_Image_Url );
+                    Tutor.put("EducationBoard", Education_Board);
+                    Tutor.put("ClassGrade", Class_Grade);
+                    Tutor.put("SchoolPrivate", School_private);
+                    Tutor.put("FieldOfStudy", Field_OfStudy);
+                    Tutor.put("LatestQualification", Latest_Qualification);
+                    Tutor.put("Longitiude", Longitude);
+                    Tutor.put("Latitude", Latitude);
+
+
+
+// Add a new document with a generated ID
+                    db.collection("Tutors").document(current_userUid)
+                            .set(Tutor).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                            Toast.makeText(MapsActivity.this,"You've been registered successfully.",Toast.LENGTH_SHORT);
+                            startActivity(new Intent(MapsActivity.this, ProfileActivity.class));
+                            finishAfterTransition();
+                        }
+                    })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Error writing document", e);
+                                }
+                            });
+
+
+
+
+
+
+                }
+
             }
         });
 
@@ -223,7 +309,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 zoom = DEFAULT_ZOOM;
                 seekbar.setProgress(0);
 
-                if (statusCheck() == true) {
+                if (statusCheck()) {
                     getDeviceLocation();
                     circle = mMap.addCircle(new CircleOptions()
                             .center(new LatLng(latitudeDevice, longitudeDevice))
@@ -315,6 +401,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     /*__________________________________________________GET DEVICE LOCATION_________________________________________________________*/
+
+
+
 
     private void getDeviceLocation() {
         Log.d(TAG, "getDeviceLocation: getting the devices current location");
