@@ -70,7 +70,8 @@
         <activity android:name=".UserForgotPassword" />
         <activity android:name=".ProfileBuilder" />
         <activity android:name=".Drawer" />
-        <activity android:name=".MapsActivity"/>
+        <activity android:name=".MapsActivity" />
+        <activity android:name=".NearbyTutorsMapActivity"/>
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />

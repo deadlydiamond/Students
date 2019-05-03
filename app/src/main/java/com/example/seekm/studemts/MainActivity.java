@@ -7,28 +7,17 @@ import android.content.pm.Signature;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Handler;
 
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.transition.Slide;
-import android.transition.TransitionInflater;
 import android.util.Base64;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.VideoView;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
-import com.example.seekm.studemts.OnBoarding_1;
 
 public class MainActivity extends AppCompatActivity {
     static final String TAG = "MAINACTIVITY";
