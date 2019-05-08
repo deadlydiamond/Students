@@ -18,16 +18,13 @@
         android:roundIcon="@drawable/logoblue"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Tutor_Profile"></activity>
-        <activity android:name=".TutorsList" />
-        <activity android:name=".NearbyTutors" />
+        <activity android:name=".NearbyTutors"></activity>
         <activity android:name=".History" />
         <activity android:name=".Messages" />
         <activity android:name=".Advert" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -74,7 +71,7 @@
         <activity android:name=".ProfileBuilder" />
         <activity android:name=".Drawer" />
         <activity android:name=".MapsActivity" />
-
+        <activity android:name=".NearbyTutorsMapActivity"/>
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />

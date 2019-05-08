@@ -7,6 +7,8 @@
     android:layout_height="match_parent"
     android:layout_width="match_parent">
 
+
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/ic_gps"
         android:layout_width="wrap_content"
@@ -14,7 +16,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="8dp"
-        android:tint="@color/colorwhite"
+        android:tint="@color/White"
         app:backgroundTint="@color/transparency"
         app:fabSize="auto"
         app:layout_constraintBottom_toTopOf="@+id/next"
@@ -38,7 +40,7 @@
         android:layout_marginBottom="16dp"
         android:clickable="true"
         android:padding="10dp"
-        android:tint="@color/colorwhite"
+        android:tint="@color/White"
         app:backgroundTint="@color/transparency"
         app:fabSize="auto"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -51,24 +53,24 @@
         app:useCompatPadding="false" />
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:map="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MapsActivity" />
+        tools:context=".NearbyTutorsMapActivity" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/relLayout1"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:background="@color/transparency"
+        android:background="@drawable/white_border"
         android:elevation="10dp"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -83,7 +85,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:src="@drawable/ic_magnify"
-            android:tint="@color/colorwhite"
+            android:tint="@color/colorAccent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -94,18 +96,16 @@
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
             android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
             android:layout_toRightOf="@id/magnify"
             android:background="@null"
             android:hint="Enter address, city or zip code"
-            android:textColor="#fff"
             android:imeOptions="actionSearch"
             android:paddingLeft="20dp"
             android:singleLine="true"
-            android:textColorHint="@color/colorwhite"
-            android:textSize="18sp"
+            android:textColor="#000"
+            android:textSize="15sp"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -114,32 +114,71 @@
     </android.support.constraint.ConstraintLayout>
 
     <TextView
+        android:id="@+id/info"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/relLayout1"
-        android:paddingStart="20dp"
         android:layout_centerVertical="true"
-        android:textSize="15sp"
-        android:paddingTop="20dp"
-        android:textColor="#0072FF"
-        android:id="@+id/info"
         android:background="@null"
         android:imeOptions="actionSearch"
+        android:paddingStart="20dp"
+        android:paddingLeft="20dp"
+        android:paddingTop="20dp"
         android:singleLine="true"
-        android:paddingLeft="20dp" />
+        android:textColor="#0072FF"
+        android:textSize="15sp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="65dp" />
 
 
-
-
-    <RelativeLayout
-        android:id="@+id/relLayout2"
+    <SeekBar
+        android:id="@+id/seekBar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="84dp"
+        android:layout_marginBottom="8dp"
+        android:max="32"
+        android:min="1"
+        android:outlineAmbientShadowColor="@color/colorAccent"
+        android:progressDrawable="@drawable/seekbar"
+        android:progressBackgroundTint="@color/transparency"
+        android:thumb="@drawable/arrow"
+        android:theme="@style/Widget.AppCompat.SeekBar.Discrete"
+        android:thumbTint="@color/DodgerBlue"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.92" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/colorAccent"
+        android:padding="15sp"
+        android:text="SELECT YOUR RADIUS"
+        android:textAlignment="center"
+        android:textColor="@color/White"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="0dp" />
 
-    </RelativeLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="32dp"
+        android:text="Radius Meter"
+        android:textColor="@color/FloralWhite"
+        app:layout_constraintBottom_toBottomOf="@+id/info"
+        app:layout_constraintEnd_toEndOf="@+id/seekBar"
+        app:layout_constraintHorizontal_bias="0.54"
+        app:layout_constraintStart_toStartOf="@+id/seekBar"
+        app:layout_constraintTop_toTopOf="@+id/seekBar"
+        app:layout_constraintVertical_bias="0.43" />
 
 </android.support.constraint.ConstraintLayout>
