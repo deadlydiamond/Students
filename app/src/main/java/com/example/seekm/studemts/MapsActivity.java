@@ -304,33 +304,33 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
-                    Map<String, Object> Tutor = new HashMap<>();
-                    Tutor.put("User_uid",current_userUid);
-                    Tutor.put("FirstName",First_Name );
-                    Tutor.put("LastName", Last_Name);
-                    Tutor.put("EmailAddress", Email);
-                    Tutor.put("Password", password);
-                    Tutor.put("DateOfBirth",DateOfBirth );
-                    Tutor.put("Gender", Gender);
-                    Tutor.put("ProfileImage_Url",profile_Image_Url );
-                    Tutor.put("EducationBoard", Education_Board);
-                    Tutor.put("ClassGrade", Class_Grade);
-                    Tutor.put("SchoolPrivate", School_private);
-                    Tutor.put("FieldOfStudy", Field_OfStudy);
-                    Tutor.put("LatestQualification", Latest_Qualification);
-                    Tutor.put("Longitiude", Longitude);
-                    Tutor.put("Latitude", Latitude);
+                    Map<String, Object> Student = new HashMap<>();
+                    Student.put("User_uid",current_userUid);
+                    Student.put("FirstName",First_Name );
+                    Student.put("LastName", Last_Name);
+                    Student.put("EmailAddress", Email);
+                    Student.put("Password", password);
+                    Student.put("DateOfBirth",DateOfBirth );
+                    Student.put("Gender", Gender);
+                    Student.put("ProfileImage_Url",profile_Image_Url );
+                    Student.put("EducationBoard", Education_Board);
+                    Student.put("ClassGrade", Class_Grade);
+                    Student.put("SchoolPrivate", School_private);
+                    Student.put("FieldOfStudy", Field_OfStudy);
+                    Student.put("LatestQualification", Latest_Qualification);
+                    Student.put("Longitiude", Longitude);
+                    Student.put("Latitude", Latitude);
 
 
 
 // Add a new document with a generated ID
-                    db.collection("Tutors").document(current_userUid)
-                            .set(Tutor).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    db.collection("Students").document(current_userUid)
+                            .set(Student).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
                             Log.d(TAG, "DocumentSnapshot successfully written!");
                             Toast.makeText(MapsActivity.this,"You've been registered successfully.",Toast.LENGTH_SHORT);
-                            startActivity(new Intent(MapsActivity.this, NearbyTutorsMapActivity.class));
+                            startActivity(new Intent(MapsActivity.this, ProfileActivity.class));
                             finishAfterTransition();
                         }
                     })
@@ -343,39 +343,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
-//
-//                   databaseReference = FirebaseDatabase.getInstance().getReference("users");
-//
-//                   String UserId= databaseReference.push().getKey();
-//                    UserClass New_Profile= new UserClass(First_Name,Last_Name,Email,password,DateOfBirth,Gender,profile_Image_Url,Education_Board,Class_Grade,School_private,Field_OfStudy,Latest_Qualification,Longitude,Latitude);
-//                            databaseReference
-//                            .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
-//                            .setValue(New_Profile)
-//                            .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                @Override
-//                                public void onComplete(@NonNull Task<Void> task) {
-//
-//                                    if (task.isSuccessful()){
-//                                        Toast.makeText(MapsActivity.this,"You've been registered successfully.",Toast.LENGTH_SHORT);
-//                                        startActivity(new Intent(MapsActivity.this,ProfileActivity.class));
-//                                        finishAfterTransition();
-//
-//                                    }
-//
-//                                    else {
-//
-//                                        Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_SHORT);
-//                                    }
-//
-//
-//                                }
-//                            });
-//
 
-                    //   startActivity(new Intent(ProfileBuilder.this,MapsActivity.class));
-//                    intent.putExtra("Longitude", latitudeStr);
-//                    intent.putExtra("Latitude", longitudeStr);
-//                    startActivity(intent);
                 }
             }
         });

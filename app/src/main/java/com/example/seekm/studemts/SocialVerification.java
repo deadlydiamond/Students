@@ -4,18 +4,15 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -40,38 +37,26 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SocialVerification extends AppCompatActivity implements View.OnClickListener {
 
-
-
-
     private static final String TAG = "GoogleActivity";
     private static final int RC_SIGN_IN = 9001;
-
+    public int flag = 0;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    CallbackManager callbackManager;
+    LoginButton loginButton;
     private ProgressBar progressBar_Social;
-
     private ImageButton facebook_button;
     private ImageButton google_button;
-
     private SignInButton signInButton;
-
-
+    // [END declare_auth]
     // [START declare_auth]
     private FirebaseAuth mAuth;
-    CallbackManager callbackManager;
-    public int flag = 0;
-    // [END declare_auth]
-
-
     private GoogleSignInClient mGoogleSignInClient;
-
-
-
-
-
-    LoginButton loginButton;
-
     private ImageButton back_button;
 
     @SuppressLint("WrongViewCast")
@@ -81,32 +66,24 @@ public class SocialVerification extends AppCompatActivity implements View.OnClic
         setContentView(R.layout.activity_social_verification);
 
         Window window = getWindow();
-        if (Build.VERSION.SDK_INT >=21)
+        if (Build.VERSION.SDK_INT >= 21)
             window.setStatusBarColor(getResources().getColor(R.color.colorSocial));
 
         //locking orientation
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-
-        facebook_button=findViewById(R.id.fb_login_btn);
-        google_button=findViewById(R.id.google_login_btn);
-
+        facebook_button = findViewById(R.id.fb_login_btn);
+        google_button = findViewById(R.id.google_login_btn);
 
         progressBar_Social = findViewById(R.id.progressBar_social);
 
         facebook_button.setOnClickListener(this);
 
-
-        signInButton=findViewById(R.id.google_signin_button);
+        signInButton = findViewById(R.id.google_signin_button);
         google_button.setOnClickListener(this);
         signInButton.setOnClickListener(this);
 
-
-
-
-
-
-        back_button=findViewById(R.id.back_btn_social_1);
+        back_button = findViewById(R.id.back_btn_social_1);
         back_button.setOnClickListener(this);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -115,7 +92,6 @@ public class SocialVerification extends AppCompatActivity implements View.OnClic
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
 
         mAuth = FirebaseAuth.getInstance();
         callbackManager = CallbackManager.Factory.create();
@@ -129,34 +105,13 @@ public class SocialVerification extends AppCompatActivity implements View.OnClic
             }
         });
 
-
-
-
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 signIn();
             }
         });
-
-
-
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     private void fbSignIn() {
         flag = 1;
@@ -178,7 +133,6 @@ public class SocialVerification extends AppCompatActivity implements View.OnClic
         });
     }
 
-
     private void handleFacebookAccessToken(AccessToken accessToken) {
 
         AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());
@@ -186,23 +140,46 @@ public class SocialVerification extends AppCompatActivity implements View.OnClic
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(SocialVerification.this,""+e.getMessage(),Toast.LENGTH_SHORT).show();
-                        Log.e("ERROR_EDMT",""+e.getMessage());
-
+                        Toast.makeText(SocialVerification.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Log.e("ERROR_EDMT", "" + e.getMessage());
                     }
                 }).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
             @Override
             public void onSuccess(AuthResult authResult) {
                 String email23 = authResult.getUser().getEmail();
 
-
                 progressBar_Social.setVisibility(View.GONE);
+                FirebaseUser user = mAuth.getCurrentUser();
+                FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                final String User_uid1 = currentFirebaseUser.getUid();
 
-                Toast.makeText(SocialVerification.this,"You are signed in with this email : "+email23,Toast.LENGTH_SHORT).show();
+                DocumentReference docRef = db.collection("Tutors").document(User_uid1);
+                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
 
+                                progressBar_Social.setVisibility(View.GONE);
+
+                                finishAffinity();
+                                startActivity(new Intent(SocialVerification.this, Drawer.class));
+                            } else {
+
+                                progressBar_Social.setVisibility(View.GONE);
+
+                                finishAffinity();
+                                startActivity(new Intent(SocialVerification.this, NextActivity.class));
+                            }
+                        } else {
+                            Log.d(TAG, "get failed with ", task.getException());
+                        }
+                    }
+                });
 
                 finishAffinity();
-                startActivity(new Intent(SocialVerification.this,NextActivity.class));
+                startActivity(new Intent(SocialVerification.this, NextActivity.class));
             }
         });
     }
@@ -212,10 +189,8 @@ public class SocialVerification extends AppCompatActivity implements View.OnClic
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-      //  updateUI(currentUser);
+        //  updateUI(currentUser);
     }
-
-
 
     // [START o1nactivityresult]
     @Override
@@ -224,7 +199,7 @@ public class SocialVerification extends AppCompatActivity implements View.OnClic
 
         progressBar_Social.setVisibility(View.VISIBLE);
 
-        if (flag == 0){
+        if (flag == 0) {
 
             // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
             if (requestCode == RC_SIGN_IN) {
@@ -237,21 +212,15 @@ public class SocialVerification extends AppCompatActivity implements View.OnClic
                     // Google Sign In failed, update UI appropriately
                     Log.w(TAG, "Google sign in failed", e);
                     // [START_EXCLUDE]
-                 //   updateUI(null);
+                    //   updateUI(null);
                     // [END_EXCLUDE]
                 }
             }
+        } else {
 
-        }
-
-        else{
-
-            callbackManager.onActivityResult(requestCode,resultCode,data);
+            callbackManager.onActivityResult(requestCode, resultCode, data);
         }
     }
-
-
-
 
     // [START auth_with_google]
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
@@ -268,18 +237,40 @@ public class SocialVerification extends AppCompatActivity implements View.OnClic
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                            final String User_uid1 = currentFirebaseUser.getUid();
 
-                            progressBar_Social.setVisibility(View.GONE);
+                            DocumentReference docRef = db.collection("Students").document(User_uid1);
+                            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        DocumentSnapshot document = task.getResult();
+                                        if (document.exists()) {
 
-                            finishAffinity();
-                            startActivity(new Intent(SocialVerification.this,NextActivity.class));
+                                            progressBar_Social.setVisibility(View.GONE);
 
-                        //    updateUI(user);
+                                            finishAffinity();
+                                            startActivity(new Intent(SocialVerification.this, Drawer.class));
+                                        } else {
+
+                                            progressBar_Social.setVisibility(View.GONE);
+
+                                            finishAffinity();
+                                            startActivity(new Intent(SocialVerification.this, NextActivity.class));
+                                        }
+                                    } else {
+                                        Log.d(TAG, "get failed with ", task.getException());
+                                    }
+                                }
+                            });
+
+                            //    updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
                             Snackbar.make(findViewById(R.id.main_layout), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
-                         //   updateUI(null);
+                            //   updateUI(null);
                         }
 
                         // [START_EXCLUDE]
@@ -289,16 +280,14 @@ public class SocialVerification extends AppCompatActivity implements View.OnClic
     }
     // [END auth_with_google]
 
-
     // [START signin]
     private void signIn() {
 
-        flag=0;
+        flag = 0;
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
     // [END signin]
-
 
     private void signOut() {
         // Firebase sign out
@@ -328,16 +317,14 @@ public class SocialVerification extends AppCompatActivity implements View.OnClic
                 });
     }
 
-
-
     @Override
     public void onClick(View view) {
 
-        switch (view.getId()){
+        switch (view.getId()) {
 
             case R.id.back_btn_social_1:
                 finish();
-                startActivity(new Intent(SocialVerification.this,MobileV.class));
+                startActivity(new Intent(SocialVerification.this, MobileV.class));
                 break;
 
             case R.id.fb_login_btn:
@@ -346,26 +333,15 @@ public class SocialVerification extends AppCompatActivity implements View.OnClic
 
                 break;
 
-
             case R.id.google_login_btn:
 
                 signIn();
 
-              //  signInButton.performClick();
-
+                //  signInButton.performClick();
 
                 break;
-
         }
-
-
-
     }
-
-
-
-
-
 }
 
 
