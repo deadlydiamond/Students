@@ -19,7 +19,7 @@
         android:layout_marginRight="32dp"
         android:textSize="20sp"
         android:fontFamily="@font/montserrat"
-        android:text="Let' get started!"
+        android:text="Tutor's Profile"
         android:textColor="@android:color/white"
         app:layout_constraintDimensionRatio="1:0.1"
         app:layout_constraintEnd_toEndOf="parent"
@@ -89,67 +89,52 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.117" />
 
-    <ImageView
+    <TextView
         android:id="@+id/imageView16"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
+        android:text="Qualification: "
+        android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@+id/qualificationn"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/qualificationn"
-        app:srcCompat="@drawable/ic_email" />
+        app:layout_constraintTop_toTopOf="@+id/qualificationn" />
 
-    <ImageView
+    <TextView
         android:id="@+id/imageView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
+        android:text="Name: "
+        android:textSize="16sp"
         android:layout_marginLeft="32dp"
         app:layout_constraintBottom_toBottomOf="@+id/name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/name"
         app:srcCompat="@drawable/ic_person" />
 
-    <ImageButton
-        android:id="@+id/addButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/fui_transparent"
-        android:src="@drawable/ic_add"
-        app:layout_constraintBottom_toBottomOf="@+id/sign_up_image_button"
-        app:layout_constraintEnd_toEndOf="@+id/sign_up_image_button"
-        app:layout_constraintStart_toStartOf="@+id/sign_up_image_button"
-        app:layout_constraintTop_toTopOf="@+id/sign_up_image_button" />
-
-    <EditText
+    <TextView
         android:id="@+id/name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_marginStart="69dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
         android:layout_marginBottom="8dp"
         android:ems="10"
-        android:hint="First Name"
-        android:imeOptions="actionNext"
-        android:inputType="textPersonName"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/imageView7"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.41000003" />
 
-    <ImageView
+    <TextView
         android:id="@+id/imageView18"
         android:layout_width="wrap_content"
+        android:text="Gender: "
+        android:textSize="16sp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginLeft="32dp"
@@ -158,202 +143,100 @@
         app:layout_constraintBottom_toTopOf="@+id/boardd"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/genderr"
-        app:srcCompat="@drawable/ic_lock" />
+        />
 
-    <ImageView
-        android:id="@+id/imageView21"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        app:layout_constraintBottom_toBottomOf="@+id/radio_group_gender"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/radio_group_gender"
-        app:srcCompat="@drawable/ic_gender" />
 
-    <EditText
+    <TextView
         android:id="@+id/emaill"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
         android:ems="10"
-        android:hint="Last Name"
-        android:imeOptions="actionNext"
-        android:inputType="textPersonName"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView10"
+        app:layout_constraintStart_toStartOf="@+id/name"
         app:layout_constraintTop_toBottomOf="@+id/name" />
 
-    <EditText
+    <TextView
         android:id="@+id/qualificationn"
-        android:layout_width="0dp"
+        android:layout_width="222dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
-        android:ems="10"
-        android:hint="Email"
-        android:imeOptions="actionNext"
-        android:inputType="textEmailAddress"
         android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView16"
+        app:layout_constraintStart_toStartOf="@+id/emaill"
         app:layout_constraintTop_toBottomOf="@+id/emaill" />
 
-    <ImageView
+    <TextView
         android:id="@+id/imageView20"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="29dp"
         android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/radio_group_gender"
+        android:text="Date of Birth: "
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/dobb"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/dobb"
-        app:srcCompat="@drawable/ic_date" />
+        app:layout_constraintTop_toTopOf="@+id/dobb" />
 
-    <EditText
+    <TextView
         android:id="@+id/genderr"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
         android:ems="10"
-        android:hint="Password"
-        android:imeOptions="actionNext"
-        android:inputType="textPassword"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView18"
+        app:layout_constraintStart_toStartOf="@+id/emaill"
         app:layout_constraintTop_toBottomOf="@+id/qualificationn" />
 
-    <EditText
+    <TextView
         android:id="@+id/boardd"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
-        android:layout_marginRight="32dp"
         android:ems="10"
-        android:hint="Re-enter Password"
-        android:imeOptions="actionNext"
-        android:inputType="textPassword"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView19"
+        app:layout_constraintStart_toStartOf="@+id/emaill"
         app:layout_constraintTop_toBottomOf="@+id/genderr" />
 
-    <ImageView
+    <TextView
         android:id="@+id/imageView19"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/dobb"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/boardd"
-        app:srcCompat="@drawable/ic_lock" />
+        android:text="Education Board: "
+        android:textSize="16sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/boardd"
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <EditText
+    <TextView
         android:id="@+id/dobb"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="32dp"
         android:ems="10"
         android:fontFamily="@font/montserrat"
-        android:hint="Date of birth"
-        android:imeOptions="actionDone"
-        android:inputType="date"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageView20"
+        app:layout_constraintStart_toStartOf="@+id/emaill"
         app:layout_constraintTop_toBottomOf="@+id/boardd" />
 
-    <RadioGroup
-        android:id="@+id/radio_group_gender"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dobb">
 
-        <RadioButton
-            android:id="@+id/radio_btn_male"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:buttonTint="@color/colorAccent"
-            android:imeOptions="actionDone"
-            android:scaleX="0.9"
-            android:scaleY="0.9"
-            android:text="Male"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="20sp" />
-
-        <RadioButton
-            android:id="@+id/radio_btn_female"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:buttonTint="@color/colorAccent"
-            android:imeOptions="actionDone"
-            android:scaleX="0.9"
-            android:scaleY="0.9"
-            android:text="Female"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="20sp" />
-    </RadioGroup>
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floating_action_btn_signup_form"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:clickable="true"
-        android:tint="#fff"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0"
-        app:srcCompat="@drawable/ic_back"
-        app:useCompatPadding="true" />
-
-    <ImageView
+    <TextView
         android:id="@+id/imageView10"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        app:layout_constraintBottom_toBottomOf="@+id/emaill"
+        android:layout_marginTop="8dp"
+        android:text="Email: "
+        android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/emaill"
-        app:srcCompat="@drawable/ic_person" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView7" />
 
 
     <ProgressBar
@@ -371,6 +254,36 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/User_email_logged_In" />
+
+    <Button
+        android:id="@+id/btn_request"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@color/ForestGreen"
+        android:padding="10dp"
+        android:text="Send Request"
+        android:textColor="#fff"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_cancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.11"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btn_cancel" />
+
+    <Button
+        android:id="@+id/btn_cancel"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="8dp"
+        android:background="@color/DarkRed"
+        android:text="Cancel"
+        android:textColor="#fff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btn_request"
+        app:layout_constraintTop_toBottomOf="@+id/dobb" />
 
     <!--16sp"-->
     <!--app:constraintEnd_toEndOf="parent"-->

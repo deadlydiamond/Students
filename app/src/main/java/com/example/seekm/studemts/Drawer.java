@@ -72,7 +72,7 @@ public class Drawer extends AppCompatActivity
         nearby.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Drawer.this,NearbyTutors.class);
+                Intent intent = new Intent(Drawer.this,NearbyTutorsMapActivity.class);
                 startActivity(intent);
             }
         });

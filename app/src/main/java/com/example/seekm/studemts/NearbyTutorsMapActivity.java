@@ -56,7 +56,6 @@ import static android.widget.Toast.LENGTH_SHORT;
 public class NearbyTutorsMapActivity extends FragmentActivity implements OnMapReadyCallback,
         GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnInfoWindowClickListener {
 
-
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
     }
@@ -117,7 +116,7 @@ public class NearbyTutorsMapActivity extends FragmentActivity implements OnMapRe
     Marker marker;
     int count;
     Circle circle;
-    String FirstName, LastName;
+    String FirstName, LastName, Qualification, Email, Board, Gender,Dob, myEmail,UID;
     private double latitude, longitude;
     private double latitudeDevice, longitudeDevice;
     private Boolean mLocationPermissionsGranted = false;
@@ -193,6 +192,35 @@ public class NearbyTutorsMapActivity extends FragmentActivity implements OnMapRe
         alert.show();
         getDeviceLocation();
     }
+
+
+    public void buildAlertMessageInfo() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.activity_custom_info, null);
+        builder.setView(dialogView);
+        builder
+                .setCancelable(false)
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        dialog.cancel();
+                        dialog.dismiss();
+                        Intent intent = new Intent(NearbyTutorsMapActivity.this,TutorProfile.class)
+                                .putExtra("uid", UID);
+                        startActivity(intent);
+                        //getDeviceLocation();
+                    }
+                })
+                .setNegativeButton("NO THANKS   ", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, final int id) {
+                        //dialog.dismiss();
+
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
+    }
+
 
     /*__________________________________________________INIT_________________________________________________________*/
 
@@ -355,9 +383,12 @@ public class NearbyTutorsMapActivity extends FragmentActivity implements OnMapRe
     private void moveCameraToTargetLocation(LatLng latLng, float defaultZoom) {
         marker = mMap.addMarker(new MarkerOptions()
                 .position(latLng)
-                .title(FirstName + " " + LastName)
+                .title(UID)
+                .snippet("Name: " + FirstName + " "+ LastName + "\n" + " Gender: " + Gender + "\n" + " Qualification: " + Qualification)
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.teacher)));
         mMap.setOnInfoWindowClickListener(this);
+        mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(NearbyTutorsMapActivity.this));
+
     }
 
     /*__________________________________________________UPDATE BLUE CIRCLE_________________________________________________________*/
@@ -418,6 +449,14 @@ public class NearbyTutorsMapActivity extends FragmentActivity implements OnMapRe
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Log.d(TAG, document.getId() + " => " + document.get("Latitude"));
                                 try {
+                                    UID = document.getId();
+                                    FirstName = document.get("FirstName").toString();
+                                    LastName = document.get("LastName").toString();
+                                    Qualification = document.get("LatestQualification").toString();
+                                    Board = document.get("EducationBoard").toString();
+                                    Email = document.get("EmailAddress").toString();
+                                    Gender = document.get("Gender").toString();
+                                    Dob = document.get("DateOfBirth").toString();
                                     latitude = Double.parseDouble(document.get("Latitude").toString());
                                     longitude = Double.parseDouble(document.get("Longitiude").toString());
                                     //toastME("Coordinates: " + longitude+latitude);
@@ -490,9 +529,14 @@ public class NearbyTutorsMapActivity extends FragmentActivity implements OnMapRe
     /*__________________________________________________MARKER's INFO WINDOW_________________________________________________________*/
 
     @Override
-    public void onInfoWindowClick(Marker marker) {
+    public void onInfoWindowClick(Marker marker)
+    {
+        Toast.makeText(NearbyTutorsMapActivity.this,marker.getTitle(),Toast.LENGTH_LONG).show();
+        UID = marker.getTitle();
+        buildAlertMessageInfo();
 
     }
+
 
     /*__________________________________________________HIDING SOFT KEYBOARD_________________________________________________________*/
 

@@ -65,6 +65,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -323,6 +325,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
+
+
+
 // Add a new document with a generated ID
                     db.collection("Students").document(current_userUid)
                             .set(Student).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -348,6 +353,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
     }
+
+
 
     private void geoLocate() {
         Log.d(TAG, "geoLocate: geolocating");

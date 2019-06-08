@@ -3,7 +3,6 @@ package com.example.seekm.studemts;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -92,21 +91,21 @@ public class NextActivity extends AppCompatActivity implements View.OnClickListe
 
 
         p1=findViewById(R.id.next_progres_bar);
-        First_name = findViewById(R.id.edit_text_first_name);
+        First_name = findViewById(R.id.name);
 
 
 
 
-        Last_name = findViewById(R.id.edit_text_last_name);
+        Last_name = findViewById(R.id.emaill);
 
-        Email = findViewById(R.id.edit_text_email);
+        Email = findViewById(R.id.qualificationn);
 
 
-        signup_password = findViewById(R.id.edit_text_pwd);
+        signup_password = findViewById(R.id.genderr);
 
-        Confirm_password = findViewById(R.id.edit_text_confirm_pwd);
+        Confirm_password = findViewById(R.id.boardd);
 
-        DateOfBirth = findViewById(R.id.edit_text_date);
+        DateOfBirth = findViewById(R.id.dobb);
         DateOfBirth.setLongClickable(false);
 
         radioGroup_gender = findViewById(R.id.radio_group_gender);
