@@ -71,6 +71,8 @@ public class TutorsList extends AppCompatActivity {
 
     ArrayList<String> arrayList = new ArrayList<>();
     ArrayAdapter<String> arrayAdapter;
+    ArrayList<String> TutorId = new ArrayList<String>();
+
 
 
     @Override
@@ -93,7 +95,9 @@ public class TutorsList extends AppCompatActivity {
 
                                     First_Name = document.get("FirstName").toString();
                                     Last_Name = document.get("LastName").toString();
-                                    arrayList.add(document.getId());
+                                    TutorId.add(document.getId());
+                                    arrayList.add(First_Name + " " + Last_Name);
+
                                     arrayAdapter = new ArrayAdapter<String>(TutorsList.this, android.R.layout.simple_list_item_1, arrayList);
                                     listView.setAdapter(arrayAdapter);
 
@@ -113,7 +117,7 @@ public class TutorsList extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String user_doc_id =  String.valueOf(parent.getItemAtPosition(position));
+                String user_doc_id =  TutorId.get(position);
                 Toast.makeText(TutorsList.this,user_doc_id,Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(TutorsList.this, Tutor_Profile.class);
             //    startActivity(intent);
