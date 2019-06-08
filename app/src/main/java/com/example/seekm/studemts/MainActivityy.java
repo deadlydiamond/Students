@@ -30,7 +30,7 @@ public class MainActivityy extends AppCompatActivity {
     TabLayout mtabLayout;
     DatabaseReference mDatabaseReference;
 
-    //Toolbar mtoolbar;
+    Toolbar mtoolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

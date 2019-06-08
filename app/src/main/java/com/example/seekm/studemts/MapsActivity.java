@@ -61,7 +61,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -77,11 +79,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnInfoWindowClickListener, GoogleMap.OnMarkerDragListener {
 
     SharedPreferences Profile_preferences ;
-    FirebaseAuth mAuth;
+    public FirebaseAuth mAuth;
     Circle circle;
-    DatabaseReference databaseReference;
+//    DatabaseReference databaseReference;
     private static final String TAG = "haha";
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    public DatabaseReference mDatabase;
+
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
@@ -281,6 +285,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     String longitudeStr, latitudeStr;
                     latitudeStr = String.valueOf(latitude);
                     longitudeStr = String.valueOf(longitude);
+                    mAuth=FirebaseAuth.getInstance();
+                    mDatabase= FirebaseDatabase.getInstance().getReference().child("users");
 
                     SharedPreferences.Editor editor = Profile_preferences.edit();
                     editor.putString("Latitude",latitudeStr);
@@ -328,6 +334,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
+
+
+
 // Add a new document with a generated ID
                     db.collection("Students").document(current_userUid)
                             .set(Student).addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -345,7 +354,42 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                     Log.w(TAG, "Error writing document", e);
                                 }
                             });
+                    FirebaseUser current_user = FirebaseAuth.getInstance().getCurrentUser();
+                    final String uid=current_user.getUid();
+                    String token_id = FirebaseInstanceId.getInstance().getToken();
+                    Map userMap=new HashMap();
+                    userMap.put("device_token",token_id);
+                    userMap.put("name",First_Name + " " + Last_Name);
+                    userMap.put("status","Hello");
+                    userMap.put("image","default");
+                    userMap.put("thumb_image","default");
+                    userMap.put("online","true");
 
+                    mDatabase.child(uid).setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task1) {
+                            if(task1.isSuccessful()){
+
+
+                                Toast.makeText(getApplicationContext(), "Chat is created too", Toast.LENGTH_SHORT).show();
+                            //    Intent intent=new Intent(RegisterActivity.this,MainActivityy.class);
+
+                                //----REMOVING THE LOGIN ACTIVITY FROM THE QUEUE----
+                               // intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                //startActivity(intent);
+                                //finish();
+
+
+
+                            }
+                            else{
+
+                                Toast.makeText(MapsActivity.this, "Chat not registered", Toast.LENGTH_SHORT).show();
+
+                            }
+
+                        }
+                    });
 
 
 
