@@ -63,26 +63,26 @@ dependencies {
 
 
     //----GETTING IMAGE FROM URL AND ADDING TO HOLDER----
-    compile 'com.squareup.picasso:picasso:2.5.2'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
 
 
     //------FIREBASE CLOUD MESSAGING FOR SENDING NOTIFICATION-----
-    compile 'com.google.firebase:firebase-messaging:18.0.0'
+    implementation 'com.google.firebase:firebase-messaging:18.0.0'
 
 
     //-----DATA IS FETCHED FROM DATABASE AND ADDED TO RECYCLER VIEW----
     implementation 'com.firebaseui:firebase-ui-database:1.0.1'
 
     //---IMAGE CROPPING LIBRARY
-    compile 'com.theartofdev.edmodo:android-image-cropper:2.5.0'
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.5.0'
 
 
     //-----FOR SENDING AND GETTING NOTIFICATION-----
-    compile 'com.squareup.okhttp:okhttp:2.7.5'
+    implementation 'com.squareup.okhttp:okhttp:2.7.5'
 
 
     //----COMPRESSING THE IMAGE----
-    compile 'id.zelory:compressor:2.1.0'
+    implementation 'id.zelory:compressor:2.1.0'
 
 
 }
