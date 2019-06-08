@@ -80,5 +80,13 @@ public class TutorProfile extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        request.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(TutorProfile.this,RegisterActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

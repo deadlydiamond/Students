@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
+    
     <application
         android:allowBackup="true"
         android:icon="@drawable/logoblue"
@@ -25,6 +25,14 @@
         <activity android:name=".TutorsList" />
         <activity android:name=".Tutor_Profile"/>
         <activity android:name=".TutorProfile"/>
+        <activity android:name=".MainActivityy"/>
+        <activity android:name=".ProfileActivityy"/>
+        <activity android:name=".ChatActivity"/>
+        <activity android:name=".LoginActivity"/>
+        <activity android:name=".RegisterActivity"/>
+        <activity android:name=".SettingActivity"/>
+        <activity android:name=".StatusActivity"/>
+        <activity android:name=".UserActivity"/>
 
 
         <activity android:name=".MainActivity">
