@@ -109,7 +109,7 @@ public class TutorsList extends AppCompatActivity {
                             }
 
                         } else {
-                            Log.w(TAG, "Error getting documents.", task.getException());
+                            Log.w(TAG, "Error getting document.", task.getException());
                         }
                     }
 
