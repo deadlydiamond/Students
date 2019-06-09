@@ -58,13 +58,11 @@ public class TutorProfile extends AppCompatActivity {
 
         cancel = (Button)findViewById(R.id.btn_cancel);
         request = (Button)findViewById(R.id.btn_request);
-        decline = (Button)findViewById(R.id.profileDeclineReqButton23);
+        //decline = (Button)findViewById(R.id.profileDeclineReqButton23);
         Intent intent = getIntent();
         myUID = intent.getStringExtra("uid");
         user_id =  intent.getStringExtra("uid");
         Toast.makeText(TutorProfile.this, myUID,Toast.LENGTH_LONG).show();
-        decline.setVisibility(View.INVISIBLE);
-        decline.setEnabled(false);
 
         mfriendReqReference= FirebaseDatabase.getInstance().getReference().child("friend_request");
         mDatabaseReference=FirebaseDatabase.getInstance().getReference().child("users").child(myUID);
@@ -135,11 +133,8 @@ public class TutorProfile extends AppCompatActivity {
 
                                         mCurrent_state="req_sent";
 
-                                        request.setVisibility(View.INVISIBLE);
-                                        request.setEnabled(false);
+                                            request.setText("Cancel Request");
 
-                                        decline.setVisibility(View.VISIBLE);
-                                                decline.setEnabled(true);
 
                                     }
 
@@ -155,12 +150,11 @@ public class TutorProfile extends AppCompatActivity {
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                            decline.setVisibility(View.INVISIBLE);
-                                            decline.setEnabled(false);
+
 
                                             if(dataSnapshot.hasChild(user_id)){
                                                 mCurrent_state="friends";
-                                                request.setText("Unfriend This Person");
+                                                request.setText("Block Tutor");
                                             }
 
                                         }
@@ -209,7 +203,7 @@ public class TutorProfile extends AppCompatActivity {
         request.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                request.setEnabled(false);
+
                 if(mCurrent_state.equals("not_friends")){
 
                     DatabaseReference newNotificationReference = mRootReference.child("notifications").child(user_id).push();
@@ -233,11 +227,9 @@ public class TutorProfile extends AppCompatActivity {
 
                                 Toast.makeText(TutorProfile.this, "Friend Request sent successfully", Toast.LENGTH_SHORT).show();
 
-                                request.setEnabled(false);
-                                request.setVisibility(View.INVISIBLE);
-                                decline.setVisibility(View.VISIBLE);
+                                request.setText("Cancel Request");
                                 mCurrent_state= "req_sent";
-                                decline.setEnabled(true);
+
 
                             }
                             else{
@@ -263,8 +255,7 @@ public class TutorProfile extends AppCompatActivity {
                             if(databaseError == null){
 
                                 mCurrent_state = "not_friends";
-                                request.setVisibility(View.VISIBLE);
-                                request.setEnabled(true);
+                                request.setText("Send Request");
                                 Toast.makeText(TutorProfile.this, "Friend Request Cancelled Successfully...", Toast.LENGTH_SHORT).show();
                             }
                             else{
@@ -314,11 +305,6 @@ public class TutorProfile extends AppCompatActivity {
             }
         });
 
-        decline.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
     }
 }

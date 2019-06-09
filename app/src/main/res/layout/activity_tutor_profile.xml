@@ -8,25 +8,6 @@
     android:orientation="vertical"
     android:background="@drawable/screen_8">
 
-    <Button
-        android:id="@+id/profileDeclineReqButton23"
-        android:layout_width="284dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@android:color/holo_red_dark"
-        android:text="Decline Friend Request"
-        android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toTopOf="@+id/next_progres_bar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.895" />
-
     <TextView
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
