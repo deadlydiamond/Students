@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "563574378368-2k0ssdc4h5jj4qo32vvq4nbmo80fnkof.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.seekm.studemts",
+            "certificate_hash": "22ce5eb56b1f44999634482bb48869c4ca4b5f0a"
+          }
+        },
+        {
           "client_id": "563574378368-k9j7bvvb9h0cqgpkh4jj3bkp0bi41m5u.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -39,7 +47,7 @@
           }
         },
         {
-          "client_id": "563574378368-mhdl4i9m2n1u845cr0svk51c676f9fh7.apps.googleusercontent.com",
+          "client_id": "563574378368-36p57ikbv9klk9k413f1i1ca1kna17e7.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -67,6 +75,22 @@
         }
       },
       "oauth_client": [
+        {
+          "client_id": "563574378368-4h0g9ge4l80ph1ek5bulgv8bbd77hh90.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.seekm.uitrial",
+            "certificate_hash": "22ce5eb56b1f44999634482bb48869c4ca4b5f0a"
+          }
+        },
+        {
+          "client_id": "563574378368-6e8p2j1feej6chm7nqt8lj064fj3nesr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.seekm.uitrial",
+            "certificate_hash": "16910ef7bcb6d04cc0de96fad9881f3ee16f6afb"
+          }
+        },
         {
           "client_id": "563574378368-43l6hj5ma9t7o12u1kboovsimkj96rpr.apps.googleusercontent.com",
           "client_type": 1,
@@ -108,7 +132,44 @@
           }
         },
         {
-          "client_id": "563574378368-mhdl4i9m2n1u845cr0svk51c676f9fh7.apps.googleusercontent.com",
+          "client_id": "563574378368-36p57ikbv9klk9k413f1i1ca1kna17e7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkw-SS-bVi8VvbpxGMqokYF6rLaP82WPY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "563574378368-mhdl4i9m2n1u845cr0svk51c676f9fh7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:563574378368:android:0e2b4c09d1369606",
+        "android_client_info": {
+          "package_name": "com.seekm.chatapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "563574378368-oq10b7lpmkovrgog9us6ostuimet2cqh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.seekm.chatapp",
+            "certificate_hash": "1dc8c464cecdaf01a626ce919541ef5e7a223149"
+          }
+        },
+        {
+          "client_id": "563574378368-36p57ikbv9klk9k413f1i1ca1kna17e7.apps.googleusercontent.com",
           "client_type": 3
         }
       ],

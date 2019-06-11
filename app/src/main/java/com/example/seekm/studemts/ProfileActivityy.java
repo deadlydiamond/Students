@@ -123,7 +123,8 @@ public class ProfileActivityy extends AppCompatActivity {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 //----CHECKING IF FRIEND REQUEST IS SEND OR RECEIVED----
-                                if(dataSnapshot.hasChild(user_id)){
+                                if(dataSnapshot.hasChild(user_id))
+                                {
 
                                     String request_type = dataSnapshot.child(user_id).child("request_type").getValue().toString();
 
@@ -373,7 +374,7 @@ public class ProfileActivityy extends AppCompatActivity {
                         if(databaseError == null){
 
                             mCurrent_state = "not_friends";
-                            mProfileSendReqButton.setText("Send Friend Request");
+                            mProfileSendReqButton.setText("Tutor Can't Send Request");
                             mProfileSendReqButton.setEnabled(true);
                             Toast.makeText(ProfileActivityy.this, "Friend Request Declined Successfully...", Toast.LENGTH_SHORT).show();
 
